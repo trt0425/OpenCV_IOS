@@ -20,13 +20,14 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
     @IBOutlet weak var redImageView: UIImageView!
     @IBOutlet weak var circleImageView: UIImageView!
     
+    @IBOutlet weak var trafficSignLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         startLiveVideo()
         
         sleep(1)
-        _ = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.setPreviewImage), userInfo: nil, repeats: true)
+        _ = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self.setPreviewImage), userInfo: nil, repeats: true)
         _ = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.setRedPreviewImage), userInfo: nil, repeats: true)
         _ = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.setCirclePreviewImage), userInfo: nil, repeats: true)
     }
@@ -91,6 +92,7 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
         guard let prediction = try? model.prediction(image: pixelBuffer) else { return }
         print("------------------")
         print(prediction.classLabel) // Most likely image category as string value
+        trafficSignLabel.text = prediction.classLabel
     }
     @objc func setPreviewImage(){
         
